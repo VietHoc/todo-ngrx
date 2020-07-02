@@ -10,11 +10,11 @@ import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { EntityDataModule } from '@ngrx/data';
-import { entityConfig } from './entity-metadata';
+import {EffectsModule} from '@ngrx/effects';
+import {AppEffects} from './app.effects';
+import {StoreRouterConnectingModule, RouterState} from '@ngrx/router-store';
+import {EntityDataModule} from '@ngrx/data';
+import {entityConfig} from './entity-metadata';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +30,8 @@ import { entityConfig } from './entity-metadata';
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
+        strictStateSerializability: true,
+        strictActionSerializability: true,
       },
     }),
     StoreDevtoolsModule.instrument({
@@ -38,7 +40,9 @@ import { entityConfig } from './entity-metadata';
     }),
     BrowserAnimationsModule,
     EffectsModule.forRoot([AppEffects]),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      routerState: RouterState.Minimal,
+    }),
     EntityDataModule.forRoot(entityConfig),
   ],
   providers: [],
